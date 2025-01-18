@@ -2,26 +2,30 @@ package org.example;
 
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
+
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileStore;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class FFSserviceGetReportFromDocuments {
     public static void main( String[] args ) throws IOException {
         String path = "D:\\Отчеты\\";
         String pathDocuments = path + "Документы\\";
-        String fileName = pathDocuments + "УПД №011200228202 от 12.01.2025\\" + "УПД №011200228202 от 12.01.2025" + ".pdf";
-//        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-//        String line;
-//        while ((line = reader.readLine()) != null) {
-//            System.out.println(line);
-//        }
-//        reader.close();
-        PdfReader reader = new PdfReader(fileName);
-        int pages = reader.getNumberOfPages();
-        StringBuilder text = new StringBuilder();
-        for (int i = 1; i <= pages; i++) {
-            text.append(PdfTextExtractor.getTextFromPage(reader, i));
+        if (Files.isDirectory(Paths.get(pathDocuments))) {
+            File file = new File(pathDocuments);
+            for (File f: file.listFiles()) {
+                PdfReader reader = new PdfReader(pathDocuments + "\\" + f.getName() + "\\" + f.getName() + ".pdf");
+                int pages = reader.getNumberOfPages();
+                StringBuilder text = new StringBuilder();
+                for (int i = 1; i <= pages; i++) {
+                    text.append(PdfTextExtractor.getTextFromPage(reader, i));
+                }
+                reader.close();
+                System.out.println(text);
+            }
         }
-        reader.close();
-        System.out.println(text);
     }
 }
