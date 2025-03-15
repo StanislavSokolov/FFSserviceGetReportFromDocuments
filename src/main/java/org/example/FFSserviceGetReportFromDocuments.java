@@ -10,12 +10,18 @@ import java.nio.file.Paths;
 
 public class FFSserviceGetReportFromDocuments {
     public static void main( String[] args ) throws IOException {
-        String path = "D:\\Отчеты\\";
-        String pathDocuments = path + "Документы\\";
-        String pathFiltredDocuments = path + "Отчеты\\";
+//        String path = "D:\\Отчеты\\";
+//        String pathDocuments = path + "Документы\\";
+//        String pathFiltredDocuments = path + "Отчеты\\";
 
-        String start = "01.01.2025";
-        String stop = "31.03.2025";
+        String path = "/Документы/Отчеты/";
+        String pathDocuments = path + "Документы/";
+        String pathFiltredDocuments = path + "Отчеты/";
+
+//        String start = "01.01.2025";
+//        String stop = "31.03.2025";
+        String start = args[0];
+        String stop = args[1];
 
         String[] rowsStart = start.split("\\.");
 //        int dayStart = Integer.parseInt(rowsStart[0]);
@@ -63,7 +69,8 @@ public class FFSserviceGetReportFromDocuments {
                         int year = Integer.parseInt(rows1[2]);
                         if (year >= yearStart & year <= yearStop) {
                             if (month >= monthStart & month <= monthStop) {
-                                Files.copy(Paths.get(f.getAbsolutePath() + "\\" + f.getName() + ".pdf"), Paths.get(fileFiltred.getAbsolutePath(), f.getName() + ".pdf"));
+//                                Files.copy(Paths.get(f.getAbsolutePath() + "\\" + f.getName() + ".pdf"), Paths.get(fileFiltred.getAbsolutePath(), f.getName() + ".pdf"));
+                                Files.copy(Paths.get(f.getAbsolutePath() + "/" + f.getName() + ".pdf"), Paths.get(fileFiltred.getAbsolutePath(), f.getName() + ".pdf"));
                             }
                         }
                     }
@@ -79,7 +86,8 @@ public class FFSserviceGetReportFromDocuments {
             for (File f: file.listFiles()) {
                 if (f.getName().contains("УПД №")) {
 //                    System.out.println(f.getName());
-                    PdfReader reader = new PdfReader(newDir + "\\" + f.getName());
+//                    PdfReader reader = new PdfReader(newDir + "\\" + f.getName());
+                    PdfReader reader = new PdfReader(newDir + "/" + f.getName());
                     int pages = reader.getNumberOfPages();
                     StringBuilder text = new StringBuilder();
                     for (int i = 1; i <= pages; i++) {
